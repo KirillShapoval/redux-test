@@ -1,22 +1,22 @@
 import React, { Component } from "react";
-import { connect } from 'react-redux';
-import { ACTIONS as authenticationActions } from '../reducers/authentication';
-
-const mapStateToProps = (store) => ({
-  username: store.authentication.formValidation.username,
-  password: store.authentication.formValidation.password,
-  isAuthenticated: store.authentication.isAuthenticated
-});
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+import { ACTIONS as authAction } from "../reducers/auth";
 
 const mapDispatchToProps = {
-  ValidationSuccess: authenticationActions.ValidationSuccess,
-  isAuthenticated: authenticationActions.isAuthenticated
+  setLogged: authAction.setLogged
 };
 
 class Login extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
+    if(this.username.value && this.username.value ==='**admin**' &&
+      this.pass.value && this.pass.value === '12345')
+      {
+        this.props.setLogged();
+        this.props.history.push('./profile');
+      }
   }
 
   render() {
@@ -26,15 +26,17 @@ class Login extends Component {
         <form onSubmit={this.handleSubmit}>
           <p></p>
           <input
+            ref={c => this.username = c}
             className="input"
             type='text'
-            name='login'
-            placeholder='login'
+            name='username'
+            placeholder='username'
             autoComplete="off"
             autoFocus
           />
           <br />
           <input
+            ref={c => this.pass = c}
             className="input"
             type='password'
             name='password'
@@ -53,4 +55,4 @@ class Login extends Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(null, mapDispatchToProps)(withRouter(Login));

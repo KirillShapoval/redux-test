@@ -1,12 +1,10 @@
-import React from "react";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link
-} from "react-router-dom";
-import Login from "./components/Login";
-import News from "./components/News";
+import React from 'react';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import Login from './components/Login';
+import News from './components/News';
+import Profile from './components/Profile';
+import Home from './components/Home';
+import NotFound from './components/NotFound';
 
 export default function App() {
   return (
@@ -17,9 +15,15 @@ export default function App() {
             <li>
               <Link to="/">Home</Link>
             </li>
+            <br />
             <li>
               <Link to="/news">News</Link>
             </li>
+            <br />
+            <li>
+              <Link to="/login">Login</Link>
+            </li>
+            <br />
             <li>
               <Link to="/profile">Profile</Link>
             </li>
@@ -30,11 +34,11 @@ export default function App() {
           <Route exact path="/">
             <Home />
           </Route>
-          <Route path="/login">
-            <Login />
-          </Route>
           <Route path="/news">
             <News />
+          </Route>
+          <Route path="/login">
+            <Login />
           </Route>
           <Route path="/profile">
             <Profile />
@@ -46,20 +50,4 @@ export default function App() {
       </div>
     </Router>
   );
-}
-
-function Home() {
-  return <h1>Home page</h1>;
-}
-
-function Profile() {
-  return (
-    <div>
-      <h1>Profile</h1>
-      <p style={{color: 'red', fontSize: '30px'}}>Some confidential information</p>
-    </div>
-  );
-}
-function NotFound() {
-  return <h1>Page not found 404</h1>;
 }

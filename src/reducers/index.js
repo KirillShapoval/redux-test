@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
 import getNews from './news';
-import authentication from './authentication';
+import auth from './auth';
 
 export const rootReducer = combineReducers({
   getNews,
-  authentication
+  auth
 })
