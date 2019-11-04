@@ -1,10 +1,11 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
-import Login from './components/Login';
-import News from './components/News';
-import Profile from './components/Profile';
-import Home from './components/Home';
-import NotFound from './components/NotFound';
+import Login from './routes/LoginPage';
+import News from './routes/News';
+import Profile from './routes/Profile';
+import Home from './routes/Home';
+import NotFound from './routes/NotFound';
+
 
 export default function App() {
   return (
