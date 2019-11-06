@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+// import { Redirect } from 'react-router-dom';
 
 const mapStateToProps = (store) => ({
   isLogged: store.auth.isLogged
@@ -15,6 +16,9 @@ class Profile extends Component {
 
   render() {
     if(!this.props.isLogged) return null;
+    // if (!this.props.isLogged) {
+    //   return <Redirect to='/login' />
+    // }
     return (
       <div>
         <h1>Profile</h1>
@@ -25,3 +29,4 @@ class Profile extends Component {
 }
 
 export default connect(mapStateToProps)(withRouter(Profile));
+// export default connect(mapStateToProps)(Profile);

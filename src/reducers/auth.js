@@ -1,5 +1,6 @@
 export const initialState = {
-  isLogged: false
+  isLogged: false,
+  isButtonDisabled: false
 }
 
 export function auth(state = initialState, action) {
@@ -8,6 +9,12 @@ export function auth(state = initialState, action) {
       return {
         ...state,
         isLogged: true
+      }
+    }
+    case 'LOGIN_BUTTON_DISABLED': {
+      return {
+        ...state,
+        isButtonDisabled: true
       }
     }
     default:
@@ -21,8 +28,28 @@ export const setLogged = () => {
   }
 }
 
+export const asyncSetLogged = () => (
+  dispatch => {
+    setTimeout(() => {
+      dispatch(setLogged());
+    }, 2500)
+  }
+)
+
+export const disabledLoginButton = () => {
+  return {
+    type: 'LOGIN_BUTTON_DISABLED'
+  }
+}
+
+// export const ACTIONS = {
+//   setLogged,
+//   disabledLoginButton
+// }
+
 export const ACTIONS = {
-  setLogged
+  asyncSetLogged,
+  disabledLoginButton
 }
 
 export default auth;
