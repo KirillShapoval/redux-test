@@ -1,32 +1,13 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-// import { Redirect } from 'react-router-dom';
+import React from 'react';
+import UsersProfile from '../components/UsersProfile';
 
-const mapStateToProps = (store) => ({
-  isLogged: store.auth.isLogged
-});
-
-class Profile extends Component {
-  componentDidMount() {
-    if (!this.props.isLogged) {
-      this.props.history.push('./login')
-    }
-  }
-
-  render() {
-    if(!this.props.isLogged) return null;
-    // if (!this.props.isLogged) {
-    //   return <Redirect to='/login' />
-    // }
-    return (
-      <div>
-        <h1>Profile</h1>
-        <p style={{color: 'red', fontSize: '30px'}}>Some confidential information</p>
-      </div>
-    );
-  }
+function Profile() {
+  return (
+    <div>
+      <h1>Profile</h1>
+      <UsersProfile />
+    </div>
+  );
 }
 
-export default connect(mapStateToProps)(withRouter(Profile));
-// export default connect(mapStateToProps)(Profile);
+export default Profile;

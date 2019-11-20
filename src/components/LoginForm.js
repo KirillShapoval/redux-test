@@ -3,13 +3,13 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { ACTIONS as authAction } from '../reducers/auth';
 
-const mapStateToProps = (store) => ({
-  isButtonDisabled: store.auth.isButtonDisabled
-});
+// const mapStateToProps = (store) => ({
+//   isButtonDisabled: store.auth.isButtonDisabled
+// });
 
 const mapDispatchToProps = {
-  setLogged: authAction.asyncSetLogged,
-  disabledLoginButton: authAction.disabledLoginButton
+  setLogged: authAction.setLogged,
+  // disabledLoginButton: authAction.disabledLoginButton
 };
 
 class LoginForm extends Component {
@@ -20,8 +20,9 @@ class LoginForm extends Component {
       this.pass.value && this.pass.value === '12345')
       {
         this.props.setLogged();
-        this.props.disabledLoginButton();
-        setTimeout(() => this.props.history.push('./profile'), 2500);
+        // this.props.disabledLoginButton();
+        // setTimeout(() => this.props.history.push('./profile'), 2500);
+        this.props.history.push('./profile');
       }
   }
 
@@ -49,7 +50,7 @@ class LoginForm extends Component {
       />
       <br />
       <input
-        disabled={this.props.isButtonDisabled}
+        // disabled={this.props.isButtonDisabled}
         className="submit"
         type='submit'
         value='Log In'
@@ -59,4 +60,4 @@ class LoginForm extends Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(LoginForm));
+export default connect(null, mapDispatchToProps)(withRouter(LoginForm));
