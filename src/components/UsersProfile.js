@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { ACTIONS as profileAction } from '../reducers/profile';
 import { withRouter } from 'react-router-dom';
 import SocialsUsersProfile from './SocialsUsersProfile';
+import { func, object, bool } from 'prop-types';
 // import { Redirect } from 'react-router-dom';
 
 const mapStateToProps = (store) => ({
@@ -19,6 +20,17 @@ const mapDispatchToProps = {
 };
 
 class Profile extends Component {
+
+  static propTypes = {
+    isLoading: bool,
+    usersProfile: object,
+    isLoading: bool,
+    error: object,
+    getUsersData: func,
+    getError: func,
+    clearStore: func,
+  }
+
   componentDidMount() {
     // if (!this.props.isLogged) {
     //   this.props.history.push('./login')

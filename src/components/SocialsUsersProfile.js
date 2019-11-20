@@ -5,7 +5,6 @@ import { object } from 'prop-types';
 const mapStateToProps = (store) => {
   return {
     usersProfile: store.getUsersProfile.usersProfile,
-    isLoading: store.getUsersProfile.loading
   };
 };
 

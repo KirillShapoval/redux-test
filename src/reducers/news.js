@@ -6,7 +6,7 @@ const GET_ALL_NEWS_FAIL = 'GET_ALL_NEWS_FAIL';
 
 
 export const initialState = {
-  newsArticles: [],
+  newsArticles: null,
   loading: false
 }
 

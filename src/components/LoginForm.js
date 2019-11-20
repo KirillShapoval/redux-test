@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { ACTIONS as authAction } from '../reducers/auth';
+import { func } from 'prop-types';
 
 // const mapStateToProps = (store) => ({
 //   isButtonDisabled: store.auth.isButtonDisabled
@@ -13,6 +14,10 @@ const mapDispatchToProps = {
 };
 
 class LoginForm extends Component {
+
+  static propTypes = {
+    setLogged: func
+  }
 
   handleSubmit = e => {
     e.preventDefault();

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { ACTIONS as newsAction } from '../reducers/news';
+import { array, bool, func } from 'prop-types';
 
 const mapStateToProps = (store) => ({
   news: store.getNews.newsArticles,
@@ -12,6 +13,12 @@ const mapDispatchToProps = {
 };
 
 class NewsArticles extends Component {
+
+  static propTypes = {
+    news: array,
+    isLoading: bool,
+    getAllNews: func
+  }
 
   componentDidMount() {
     this.props.getAllNews();
