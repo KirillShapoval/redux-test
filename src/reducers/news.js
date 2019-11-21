@@ -41,12 +41,12 @@ const getAllNews = () => {
 
   return dispatch => {
     dispatch({type: GET_ALL_NEWS_REQUEST});
-    setTimeout(() => {
+    // setTimeout(() => {
       requestNews.then(({data}) => {
         // console.log(data);
         dispatch({type: GET_ALL_NEWS_SUCCESS, news: data.data})
       });
-    }, 1000)
+    // }, 1000)
   };
 }
 

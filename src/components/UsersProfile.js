@@ -32,9 +32,9 @@ class Profile extends Component {
   }
 
   componentDidMount() {
-    // if (!this.props.isLogged) {
-    //   this.props.history.push('./login')
-    // }
+    if (!this.props.isLogged) {
+      this.props.history.push('./login')
+    }
     // this.props.getUsersData();
     // this.props.getError();
     this.loadData();
@@ -81,7 +81,7 @@ class Profile extends Component {
   };
 
   render() {
-    // if(!this.props.isLogged) return null;
+    if(!this.props.isLogged) return null;
     // const { fname, lname, socials = [] } = this.props.usersProfile;
 
     // if (!this.props.isLogged) {
