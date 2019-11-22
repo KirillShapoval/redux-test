@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
-import getNews from './news';
+import news from './news';
 import auth from './auth';
-import getUsersProfile from './profile';
+import profile from './profile';
 
 export const rootReducer = combineReducers({
-  getNews,
+  news,
   auth,
-  getUsersProfile
+  profile
 })

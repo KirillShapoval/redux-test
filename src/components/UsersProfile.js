@@ -2,42 +2,50 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { ACTIONS as profileAction } from '../reducers/profile';
 import { withRouter } from 'react-router-dom';
-import SocialsUsersProfile from './SocialsUsersProfile';
+import SocialsUserProfile from './SocialsUserProfile';
 import { func, object, bool } from 'prop-types';
 // import { Redirect } from 'react-router-dom';
 
 const mapStateToProps = (store) => ({
   isLogged: store.auth.isLogged,
-  usersProfile: store.getUsersProfile.usersProfile,
-  isLoading: store.getUsersProfile.loading,
-  error: store.getUsersProfile.error
+  usersProfile: store.profile.usersProfile,
+  isLoading: store.profile.loading,
+  // error: store.profile.error
 });
 
 const mapDispatchToProps = {
   getUsersData: profileAction.getUsersData,
-  getError: profileAction.getError,
+  // getError: profileAction.getError,
   clearStore: profileAction.clearStore
 };
 
 class Profile extends Component {
 
   static propTypes = {
-    isLoading: bool,
+    isLogged: bool,
     usersProfile: object,
     isLoading: bool,
-    error: object,
+    // error: object,
     getUsersData: func,
-    getError: func,
+    // getError: func,
     clearStore: func,
+  }
+
+  static defaultProps = {
+    isLogged: false,
+    usersProfile: null,
+    isLoading: false,
+    getUsersData: undefined,
+    clearStore: undefined
   }
 
   componentDidMount() {
     if (!this.props.isLogged) {
       this.props.history.push('./login')
     }
-    // this.props.getUsersData();
+    this.props.getUsersData();
     // this.props.getError();
-    this.loadData();
+    // this.loadData();
   }
 
   componentWillUnmount() {
@@ -46,15 +54,16 @@ class Profile extends Component {
 
   // loadData is a random selection method of one of few functions
   // https://stackoverflow.com/questions/42430401/how-to-call-a-random-function-one-time-in-javascript
-  loadData = () => {
-    const funcs = [
-      this.props.getUsersData,
-      this.props.getError
-    ]
 
-    const i = Math.floor(Math.random() * funcs.length)
-    funcs.splice(i-1, 1)[0]()
-  }
+  // loadData = () => {
+  //   const funcs = [
+  //     this.props.getUsersData,
+  //     this.props.getError
+  //   ]
+
+  //   const i = Math.floor(Math.random() * funcs.length)
+  //   funcs.splice(i-1, 1)[0]()
+  // }
 
   renderUserInfo = () => {
     const { usersProfile } = this.props;
@@ -65,20 +74,30 @@ class Profile extends Component {
         <span style={{ margin: '0 5px' }}>{usersProfile.fname ? usersProfile.fname : ''}</span>
         <span style={{ margin: '0 5px' }}>{usersProfile.lname ? usersProfile.lname : ''}</span>
         {/* <span>Name: {`${usersProfile.fname} ${usersProfile.lname}`}</span> */}
-        <SocialsUsersProfile />
+        <div>
+          {usersProfile && usersProfile.socials && usersProfile.socials.map((c, i) => (
+            <SocialsUserProfile key={i}
+                                // link={c.youtube || c.instagram || c.web || c.facebook}
+                                youtube={c.youtube}
+                                instagram={c.instagram}
+                                web={c.web}
+                                facebook={c.facebook}
+            />
+          ))}
+        </div>
       </div>
     );
   };
 
-  renderError = () => {
-    const { error } = this.props;
-    if (!error) return null;
-    return (
-      <div>
-        {error.message && (<p style={{ fontSize: '30px' }}>Error: {error.message}</p>)}
-      </div>
-    );
-  };
+  // renderError = () => {
+  //   const { error } = this.props;
+  //   if (!error) return null;
+  //   return (
+  //     <div>
+  //       {error.message && (<p style={{ fontSize: '30px' }}>Error: {error.message}</p>)}
+  //     </div>
+  //   );
+  // };
 
   render() {
     if(!this.props.isLogged) return null;
@@ -93,7 +112,7 @@ class Profile extends Component {
     return (
       <div>
         {this.renderUserInfo()}
-        {this.renderError()}
+        {/* {this.renderError()} */}
       </div>
     );
   }
