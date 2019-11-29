@@ -40,9 +40,6 @@ class NewsArticles extends Component {
   }
 
   render() {
-    // if (news.length === 0) {
-    //   return <p style={{fontSize: '50px', color: 'brown'}}>Loading data</p>
-    // }
     const { news } = this.props;
     if (this.props.isLoading) {
       return <img src='preloader.gif' alt='preloader'></img>

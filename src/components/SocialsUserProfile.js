@@ -1,58 +1,50 @@
 import React from 'react';
-import { string } from 'prop-types';
+import { array } from 'prop-types';
+import './../App.css';
 
-const SocialsUserProfile = ({youtube, instagram, web, facebook}) => {
+const SocialsUserProfile = ({ data }) => {
 
-  if (youtube) {
-    return (
-      <span>
-        <a href={youtube} target='blank'>
-          <img src='youtube_logo.png' style={{width: '40px', height: '40px'}} alt='youtube'></img>
-        </a>
-      </span>
-    )
+  const getImgPath = (name) => {
+    switch(name){
+      case 'youtube': {
+        return 'youtube_logo.png'
+      }
+      case 'instagram': {
+        return 'instagram_logo.jpg'
+      }
+      case 'web': {
+        return 'f-one_logo.png'
+      }
+      case 'facebook': {
+        return 'facebook_logo.png'
+      }
+      default:
+        return null;
+    }
   }
-  else if (instagram) {
-    return (
-      <span>
-        <a href={instagram} target='blank'>
-          <img src='instagram_logo.jpg' style={{width: '40px', height: '40px'}} alt='instagram'></img>
-        </a>
-      </span>
-    )
-  }
-  else if (web) {
-    return (
-      <span>
-        <a href={web} target='blank'>
-          <img src='f-one_logo.png' style={{width: '40px', height: '40px'}} alt='f-one'></img>
-        </a>
-      </span>
-    )
-  }
-  else if (facebook) {
-    return (
-      <span>
-        <a href={facebook} target='blank'>
-          <img src='facebook_logo.png' style={{width: '40px', height: '40px'}} alt='facebook'></img>
-        </a>
-      </span>
-    )
-  }
-}
+
+  return (
+    <div>
+      {data.map((c, i) => {
+        const imgPath = getImgPath(c.name);
+        return (
+          <span key={i.toString()}>
+            <a href={c.link} target="_blank">
+              <img className="img" src={imgPath} alt={c.name}></img>
+            </a>
+          </span>
+        );
+      })}
+    </div>
+  );
+};
 
 SocialsUserProfile.propTypes = {
-  youtube: string,
-  instagram: string,
-  web: string,
-  facebook: string
+  data: array
 };
 
 SocialsUserProfile.defaultProps = {
-  youtube: '',
-  instagram: '',
-  web: '',
-  facebook: ''
-}
+  data: null
+};
 
 export default SocialsUserProfile;

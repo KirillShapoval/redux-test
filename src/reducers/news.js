@@ -21,8 +21,8 @@ function news(state = initialState, action) {
     case GET_ALL_NEWS_SUCCESS: {
       return {
         ...state,
-        newsArticles: action.news,
-        loading: false
+        loading: false,
+        newsArticles: action.news
       }
     }
     case GET_ALL_NEWS_FAIL: {

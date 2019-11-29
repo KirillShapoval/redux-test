@@ -2,67 +2,95 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { ACTIONS as authAction } from '../reducers/auth';
-import { func } from 'prop-types';
+import { func, bool } from 'prop-types';
+// import ErrorMessage from './ErrorMessage';
 
-// const mapStateToProps = (store) => ({
-//   isButtonDisabled: store.auth.isButtonDisabled
-// });
+const mapStateToProps = (store) => ({
+  isLoading: store.auth.loading,
+});
 
 const mapDispatchToProps = {
   setLogged: authAction.setLogged,
-  // disabledLoginButton: authAction.disabledLoginButton
 };
 
 class LoginForm extends Component {
 
   static propTypes = {
+    isLoading: bool,
     setLogged: func
+  }
+
+  static defaultProps = {
+    isLoading: false,
+    setLogged: undefined
+  };
+
+  state = {
+    email: '',
+    password: ''
+  }
+
+  handleChangeEmail = (e) => {
+    this.setState({
+      email: e.target.value
+    })
+  }
+
+  handleChangePassword = (e) => {
+    this.setState({
+      password: e.target.value
+    })
   }
 
   handleSubmit = e => {
     e.preventDefault();
-    if(this.username.value && this.username.value ==='**admin**' &&
-      this.pass.value && this.pass.value === '12345')
-      {
-        this.props.setLogged();
-        // this.props.disabledLoginButton();
-        // setTimeout(() => this.props.history.push('./profile'), 2500);
-        this.props.history.push('./profile');
-      }
+    const logging = this.props.setLogged(this.state);
+    const onSuccess = () => {
+      this.props.history.push('/profile');
+    };
+    const onError = (error) => {
+      console.error(error.data.message);
+    };
+    logging.then(onSuccess).catch(onError);
   }
 
   render() {
+    if (this.props.isLoading) {
+      return <img src='preloader.gif' alt='preloader'></img>
+    }
     return (
-      <form onSubmit={this.handleSubmit}>
-      <p></p>
-      <input
-        ref={c => this.username = c}
-        className="input"
-        type='text'
-        name='username'
-        placeholder='username'
-        autoComplete="off"
-        autoFocus
-      />
-      <br />
-      <input
-        ref={c => this.pass = c}
-        className="input"
-        type='password'
-        name='password'
-        placeholder='password'
-        autoComplete="off"
-      />
-      <br />
-      <input
-        // disabled={this.props.isButtonDisabled}
-        className="submit"
-        type='submit'
-        value='Log In'
-      />
-    </form>
+      <div>
+        <form onSubmit={this.handleSubmit}>
+        <p></p>
+        <input
+          className="input"
+          onChange={this.handleChangeEmail}
+          type='text'
+          name='username'
+          placeholder='username'
+          autoComplete="off"
+          autoFocus
+        />
+        <br />
+        <input
+          className="input"
+          onChange={this.handleChangePassword}
+          type='password'
+          name='password'
+          placeholder='password'
+          autoComplete="off"
+        />
+        <br />
+        <input
+          className='submit'
+          type='submit'
+          value='Log In'
+        />
+        {/* <ErrorMessage /> */}
+        </form>
+      </div>
     )
   }
 }
 
-export default connect(null, mapDispatchToProps)(withRouter(LoginForm));
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(LoginForm));

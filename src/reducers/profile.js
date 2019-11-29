@@ -1,46 +1,34 @@
 import axios from 'axios';
+import { createSelector } from 'reselect';
 
 const GET_USERS_PROFILE_REQUEST = 'GET_USERS_PROFILE_REQUEST';
 const GET_USERS_PROFILE_SUCCESS = 'GET_USERS_PROFILE_SUCCESS';
-// const GET_USERS_PROFILE_FAIL = 'GET_USERS_PROFILE_FAIL';
 const CLEAR_STORE = 'CLEAR_STORE';
 
 export const initialState = {
   usersProfile: null,
   loading: false,
-  // error: null
 };
 
 function profile(state = initialState, action) {
-  //console.log(action)
   switch (action.type) {
     case GET_USERS_PROFILE_REQUEST: {
       return {
         ...state,
         loading: true
-      }
+      };
     }
     case GET_USERS_PROFILE_SUCCESS: {
       return {
         ...state,
-        usersProfile: action.usersData,
-        loading: false
-      }
+        loading: false,
+        usersProfile: action.usersData
+      };
     }
-    // case GET_USERS_PROFILE_FAIL: {
-    //   // const { message, status } = action.data;
-    //   console.log('message', action.error.message);
-    //   console.log('status', action.error.status);
-    //   return {
-    //     ...state,
-    //     loading: false,
-    //     error: action.error
-    //   }
-    // }
     case CLEAR_STORE: {
       return {
         ...initialState
-      }
+      };
     }
     default:
       return state;
@@ -55,34 +43,37 @@ const getUsersData = () => {
   return (dispatch) => {
     dispatch({ type: GET_USERS_PROFILE_REQUEST });
       requestUsersProfile.then(({ data }) => {
-        // console.log(data);
         dispatch({ type: GET_USERS_PROFILE_SUCCESS, usersData: data.data });
       });
   };
 };
 
-// const getError = () => {
-//   const requestError = axios.get(
-//     'https://wearepush-learn-redux-task3-ba.herokuapp.com/api/v1/user-info/2'
-//   );
-//   return (dispatch) => {
-//     dispatch({ type: GET_USERS_PROFILE_REQUEST });
-//     requestError.then((res) => {
-//       console.log(res);
-//       dispatch({ type: GET_USERS_PROFILE_FAIL, error: res.data });
-//     });
-//   };
-// };
-
 const clearStore = () => {
-  return dispatch => {
-    dispatch({ type: CLEAR_STORE })
-  }
-}
+  return (dispatch) => {
+    dispatch({ type: CLEAR_STORE });
+  };
+};
+
+const getState = (state) => state.profile;
+const getProfile = (state) => getState(state).usersProfile;
+
+const selectSocial = createSelector(getProfile, (profile) => {
+  if (!profile || !profile.socials) return null;
+  return profile.socials.map((c) => {
+    const keys = Object.keys(c);
+    return {
+      link: c[keys[0]],
+      name: keys[0]
+    }
+  });
+});
+
+export const SELECTORS = {
+  selectSocial
+};
 
 export const ACTIONS = {
   getUsersData,
-  // getError,
   clearStore
 };
 
