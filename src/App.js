@@ -5,7 +5,7 @@ import News from './routes/News';
 import Profile from './routes/Profile';
 import Home from './routes/Home';
 import NotFound from './routes/NotFound';
-import PrivateRouteProfile from './components/PrivateRouteProfile';
+import PrivateRoute from './components/PrivateRoute';
 
 function App() {
   return (
@@ -44,9 +44,9 @@ function App() {
           {/* <Route path="/profile">
             <Profile />
           </Route> */}
-          <PrivateRouteProfile path="/profile">
+          <PrivateRoute path="/profile">
             <Profile />
-          </PrivateRouteProfile>
+          </PrivateRoute >
           <Route path="*">
             <NotFound />
           </Route>

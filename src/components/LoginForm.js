@@ -4,6 +4,8 @@ import { withRouter } from 'react-router-dom';
 import { ACTIONS as authAction } from '../reducers/auth';
 import { func, bool } from 'prop-types';
 // import ErrorMessage from './ErrorMessage';
+import LogOut from './LogOut';
+import {authLocalStorage} from '../reducers/auth';
 
 const mapStateToProps = (store) => ({
   isLoading: store.auth.loading,
@@ -86,20 +88,17 @@ class LoginForm extends Component {
   handleSubmitLogIn = e => {
     e.preventDefault();
     const logging = this.props.setLogged(this.state);
+
     const onSuccess = () => {
-      localStorage.setItem('emailLocalStorage', this.state.email);
-      localStorage.setItem('passLocalStorage', this.state.password);
+      localStorage.setItem(authLocalStorage, this.props.isLogged);
       this.props.history.push('/profile');
     };
+
     const onError = (error) => {
       console.error(error.data.message);
     };
-    logging.then(onSuccess).catch(onError);
-  }
 
-  handleSubmitLogOut = (e) => {
-    e.preventDefault();
-    this.props.setUserLogOut();
+    logging.then(onSuccess).catch(onError);
   }
 
   render() {
@@ -112,12 +111,7 @@ class LoginForm extends Component {
     ) : (
       <div>
         <h2>You already logged!</h2>
-        <form onSubmit={this.handleSubmitLogOut}>
-          <input
-            type='submit'
-            value='Log Out'
-          />
-        </form>
+        <LogOut setUserLogOut={this.props.setUserLogOut}/>
       </div>
     )
   }

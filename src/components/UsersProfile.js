@@ -8,6 +8,7 @@ import { ACTIONS as authAction } from '../reducers/auth';
 import { withRouter } from 'react-router-dom';
 import SocialsUserProfile from './SocialsUserProfile';
 import { func, object, bool, array } from 'prop-types';
+import LogOut from './LogOut';
 
 const mapStateToProps = (store) => ({
   isLogged: store.auth.isLogged,
@@ -50,12 +51,6 @@ class Profile extends Component {
     this.props.getUsersData();
   }
 
-  handleSubmitLogOut = e => {
-    e.preventDefault();
-    this.props.setUserLogOut();
-    // this.props.history.push('./login');
-  }
-
   renderUserInfo = () => {
     const { usersProfile, social } = this.props;
     if (!usersProfile) return null;
@@ -72,12 +67,7 @@ class Profile extends Component {
         <div>
           {social && <SocialsUserProfile data={social} />}
         </div>
-        <form onSubmit={this.handleSubmitLogOut}>
-          <input
-            type='submit'
-            value='Log Out'
-          />
-        </form>
+        <LogOut setUserLogOut={this.props.setUserLogOut}/>
       </div>
     );
   };

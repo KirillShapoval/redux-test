@@ -8,7 +8,7 @@ const mapStateToProps = (store) => ({
   isLogged: store.auth.isLogged
 });
 
-class PrivateRouteProfile extends Component {
+class PrivateRoute extends Component {
 
   static propTypes = {
     isLogged: bool
@@ -38,4 +38,4 @@ class PrivateRouteProfile extends Component {
   }
 }
 
-export default connect(mapStateToProps)(PrivateRouteProfile);
+export default connect(mapStateToProps)(PrivateRoute);

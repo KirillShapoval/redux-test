@@ -1,14 +1,18 @@
 import axios from 'axios';
 
+export const authLocalStorage = 'authLocalStorage';
+
 const SET_USER_LOGGED_REQUEST = 'SET_USER_LOGGED_REQUEST';
 const SET_USER_LOGGED_SUCCESS = 'SET_USER_LOGGED_SUCCESS';
 const SET_USER_LOGGED_FAILURE = 'SET_USER_LOGGED_FAILURE';
 const SET_USER_LOG_OUT = 'SET_USER_LOG_OUT';
 
+const isLogged = localStorage.getItem(authLocalStorage);
+
 export const initialState = {
   loading: false,
-  isLogged: false,
-  error: null,
+  isLogged: isLogged,
+  error:  null,
   data: null
 }
 
@@ -78,12 +82,8 @@ const loginPost = ({ email, password }) => {
     data: {
       email: email,
       password: password
-    },
-    // headers: {
-    //   'content-type': 'application/json'
-    // }
+    }
   }
-
   return axios(configSettings)
 }
 
