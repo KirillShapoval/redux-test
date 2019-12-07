@@ -5,9 +5,9 @@ import News from './routes/News';
 import Profile from './routes/Profile';
 import Home from './routes/Home';
 import NotFound from './routes/NotFound';
+import PrivateRouteProfile from './components/PrivateRouteProfile';
 
-
-export default function App() {
+function App() {
   return (
     <Router>
       <div>
@@ -41,9 +41,12 @@ export default function App() {
           <Route path="/login">
             <Login />
           </Route>
-          <Route path="/profile">
+          {/* <Route path="/profile">
             <Profile />
-          </Route>
+          </Route> */}
+          <PrivateRouteProfile path="/profile">
+            <Profile />
+          </PrivateRouteProfile>
           <Route path="*">
             <NotFound />
           </Route>
@@ -52,3 +55,5 @@ export default function App() {
     </Router>
   );
 }
+
+export default App;

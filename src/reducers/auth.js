@@ -3,6 +3,7 @@ import axios from 'axios';
 const SET_USER_LOGGED_REQUEST = 'SET_USER_LOGGED_REQUEST';
 const SET_USER_LOGGED_SUCCESS = 'SET_USER_LOGGED_SUCCESS';
 const SET_USER_LOGGED_FAILURE = 'SET_USER_LOGGED_FAILURE';
+const SET_USER_LOG_OUT = 'SET_USER_LOG_OUT';
 
 export const initialState = {
   loading: false,
@@ -35,6 +36,12 @@ export function auth(state = initialState, action) {
         err: action.err
       }
     }
+    case SET_USER_LOG_OUT: {
+      return {
+        ...state,
+        isLogged: false,
+      }
+    }
     default:
       return state;
   }
@@ -42,19 +49,25 @@ export function auth(state = initialState, action) {
 
 const setUserLoggedRequest = () => {
   return dispatch => {
-    dispatch({ type: SET_USER_LOGGED_REQUEST})
+    dispatch({ type: SET_USER_LOGGED_REQUEST })
   }
 }
 
 const setUserLoggedSuccess = ({ data }) => {
   return dispatch => {
-    dispatch({ type: SET_USER_LOGGED_SUCCESS}, data)
+    dispatch({ type: SET_USER_LOGGED_SUCCESS }, data)
   }
 }
 
 const setUserLoggedFailure = (error) => {
   return dispatch => {
     dispatch({ type: SET_USER_LOGGED_FAILURE }, error)
+  }
+}
+
+const setUserLogOut = () => {
+  return dispatch => {
+    dispatch({ type: SET_USER_LOG_OUT})
   }
 }
 
@@ -84,8 +97,8 @@ const setLogged = ({ email, password }) => {
       // console.log(res)
       dispatch(setUserLoggedSuccess(res));
       resolve(res);
-    },
-    error => {
+    })
+    .catch(error => {
       // console.log(error.response.data)
       dispatch(setUserLoggedFailure(error));
       reject(error.response)
@@ -96,7 +109,8 @@ const setLogged = ({ email, password }) => {
 }
 
 export const ACTIONS = {
-  setLogged
+  setLogged,
+  setUserLogOut
 }
 
 export default auth;

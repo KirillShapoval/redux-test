@@ -4,6 +4,7 @@ import {
   ACTIONS as profileAction,
   SELECTORS as profileSelectors
 } from '../reducers/profile';
+import { ACTIONS as authAction } from '../reducers/auth';
 import { withRouter } from 'react-router-dom';
 import SocialsUserProfile from './SocialsUserProfile';
 import { func, object, bool, array } from 'prop-types';
@@ -17,7 +18,8 @@ const mapStateToProps = (store) => ({
 
 const mapDispatchToProps = {
   getUsersData: profileAction.getUsersData,
-  clearStore: profileAction.clearStore
+  clearStore: profileAction.clearStore,
+  setUserLogOut: authAction.setUserLogOut
 };
 
 class Profile extends Component {
@@ -27,7 +29,8 @@ class Profile extends Component {
     isLoading: bool,
     social: array,
     getUsersData: func,
-    clearStore: func
+    clearStore: func,
+    setUserLogOut: func
   };
 
   static defaultProps = {
@@ -36,14 +39,21 @@ class Profile extends Component {
     isLoading: false,
     social: null,
     getUsersData: undefined,
-    clearStore: undefined
+    clearStore: undefined,
+    setUserLogOut: undefined
   };
 
   componentDidMount() {
-    if (!this.props.isLogged) {
-      this.props.history.push('./login');
-    }
+    // if (!this.props.isLogged) {
+    //   this.props.history.push('./login');
+    // }
     this.props.getUsersData();
+  }
+
+  handleSubmitLogOut = e => {
+    e.preventDefault();
+    this.props.setUserLogOut();
+    // this.props.history.push('./login');
   }
 
   renderUserInfo = () => {
@@ -62,6 +72,12 @@ class Profile extends Component {
         <div>
           {social && <SocialsUserProfile data={social} />}
         </div>
+        <form onSubmit={this.handleSubmitLogOut}>
+          <input
+            type='submit'
+            value='Log Out'
+          />
+        </form>
       </div>
     );
   };

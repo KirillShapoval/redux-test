@@ -7,22 +7,28 @@ import { func, bool } from 'prop-types';
 
 const mapStateToProps = (store) => ({
   isLoading: store.auth.loading,
+  isLogged: store.auth.isLogged,
 });
 
 const mapDispatchToProps = {
   setLogged: authAction.setLogged,
+  setUserLogOut: authAction.setUserLogOut
 };
 
 class LoginForm extends Component {
 
   static propTypes = {
     isLoading: bool,
-    setLogged: func
+    isLogged: bool,
+    setLogged: func,
+    setUserLogOut: func
   }
 
   static defaultProps = {
     isLoading: false,
-    setLogged: undefined
+    isLogged: false,
+    setLogged: undefined,
+    setUserLogOut: undefined
   };
 
   state = {
@@ -30,37 +36,10 @@ class LoginForm extends Component {
     password: ''
   }
 
-  handleChangeEmail = (e) => {
-    this.setState({
-      email: e.target.value
-    })
-  }
-
-  handleChangePassword = (e) => {
-    this.setState({
-      password: e.target.value
-    })
-  }
-
-  handleSubmit = e => {
-    e.preventDefault();
-    const logging = this.props.setLogged(this.state);
-    const onSuccess = () => {
-      this.props.history.push('/profile');
-    };
-    const onError = (error) => {
-      console.error(error.data.message);
-    };
-    logging.then(onSuccess).catch(onError);
-  }
-
-  render() {
-    if (this.props.isLoading) {
-      return <img src='preloader.gif' alt='preloader'></img>
-    }
+  renderAuthLoginForm = () => {
     return (
       <div>
-        <form onSubmit={this.handleSubmit}>
+        <form onSubmit={this.handleSubmitLogIn}>
         <p></p>
         <input
           className="input"
@@ -87,6 +66,57 @@ class LoginForm extends Component {
           value='Log In'
         />
         {/* <ErrorMessage /> */}
+        </form>
+      </div>
+    )
+  }
+
+  handleChangeEmail = (e) => {
+    this.setState({
+      email: e.target.value
+    })
+  }
+
+  handleChangePassword = (e) => {
+    this.setState({
+      password: e.target.value
+    })
+  }
+
+  handleSubmitLogIn = e => {
+    e.preventDefault();
+    const logging = this.props.setLogged(this.state);
+    const onSuccess = () => {
+      localStorage.setItem('emailLocalStorage', this.state.email);
+      localStorage.setItem('passLocalStorage', this.state.password);
+      this.props.history.push('/profile');
+    };
+    const onError = (error) => {
+      console.error(error.data.message);
+    };
+    logging.then(onSuccess).catch(onError);
+  }
+
+  handleSubmitLogOut = (e) => {
+    e.preventDefault();
+    this.props.setUserLogOut();
+  }
+
+  render() {
+    if (this.props.isLoading) {
+      return <img src='preloader.gif' alt='preloader'></img>
+    }
+    return !this.props.isLogged ?
+    (
+      <div>{this.renderAuthLoginForm()}</div>
+    ) : (
+      <div>
+        <h2>You already logged!</h2>
+        <form onSubmit={this.handleSubmitLogOut}>
+          <input
+            type='submit'
+            value='Log Out'
+          />
         </form>
       </div>
     )
