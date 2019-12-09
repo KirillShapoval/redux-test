@@ -7,7 +7,7 @@ const SET_USER_LOGGED_SUCCESS = 'SET_USER_LOGGED_SUCCESS';
 const SET_USER_LOGGED_FAILURE = 'SET_USER_LOGGED_FAILURE';
 const SET_USER_LOG_OUT = 'SET_USER_LOG_OUT';
 
-const isLogged = localStorage.getItem(authLocalStorage);
+const isLogged = localStorage.getItem(authLocalStorage) === 'true';
 
 export const initialState = {
   loading: false,
@@ -76,15 +76,14 @@ const setUserLogOut = () => {
 }
 
 const loginPost = ({ email, password }) => {
-  const configSettings = {
+  return axios({
     method: 'post',
     url: 'https://wearepush-learn-redux-task3-ba.herokuapp.com/api/v1/validate',
     data: {
-      email: email,
-      password: password
+      email,
+      password
     }
-  }
-  return axios(configSettings)
+  })
 }
 
 const setLogged = ({ email, password }) => {
