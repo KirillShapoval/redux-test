@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { usersAPI } from '../api/api';
 import { createSelector } from 'reselect';
 
 const GET_USERS_PROFILE_REQUEST = 'GET_USERS_PROFILE_REQUEST';
@@ -36,13 +36,9 @@ function profile(state = initialState, action) {
 }
 
 const getUsersData = () => {
-  const requestUsersProfile = axios.get(
-    'https://wearepush-learn-redux-task3-ba.herokuapp.com/api/v1/user-info/1'
-  );
-
   return (dispatch) => {
     dispatch({ type: GET_USERS_PROFILE_REQUEST });
-      requestUsersProfile.then(({ data }) => {
+      usersAPI.getUsersProfile().then(({ data }) => {
         dispatch({ type: GET_USERS_PROFILE_SUCCESS, usersData: data.data });
       });
   };
