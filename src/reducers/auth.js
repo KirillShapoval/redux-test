@@ -1,5 +1,4 @@
-import axios from 'axios';
-// import { usersAPI } from '../api/api';
+import { usersAPI } from '../api/api';
 
 export const authLocalStorage = 'authLocalStorage';
 
@@ -76,23 +75,23 @@ const setUserLogOut = () => {
   }
 }
 
-const loginPost = ({ email, password }) => {
-  return axios({
-    method: 'post',
-    url: 'https://wearepush-learn-redux-task3-ba.herokuapp.com/api/v1/validate',
-    data: {
-      email,
-      password
-    }
-  })
-}
+// const loginPost = ({ email, password }) => {
+//   return axios({
+//     method: 'post',
+//     url: 'https://wearepush-learn-redux-task3-ba.herokuapp.com/api/v1/validate',
+//     data: {
+//       email,
+//       password
+//     }
+//   })
+// }
 
 const setLogged = ({ email, password }) => {
   return (dispatch) => {
     dispatch(setUserLoggedRequest());
 
   let promise = new Promise((resolve, reject) => {
-    loginPost({ email, password })
+    usersAPI.loginPost({ email, password })
     .then(res => {
       // console.log(res)
       dispatch(setUserLoggedSuccess(res));

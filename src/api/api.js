@@ -6,12 +6,12 @@ const instance = axios.create({
 
 export const usersAPI = {
   getNews() {
-    return instance.get(`news`)
+    return instance(`news`,  { method: 'get' })
   },
   getUsersProfile() {
-    return instance.get(`user-info/1`)
+    return instance(`user-info/1`, { method: 'get' })
   },
-  // loginPost({email, login}) {
-  //   return instance.post(`validate`)
-  // }
+  loginPost(data) {
+    return instance(`validate`, { method: 'post', data })
+  }
 }
